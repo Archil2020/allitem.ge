@@ -1,11 +1,17 @@
-const express = require('express');
-
+const router = require('express').Router();
 const fs = require('fs');
-const { json } = require('body-parser');
-var router = express.Router();
 
-router.get('/',(req,res)=>{
-    res.render('regist');
+function filter(){
+    return function(req,res,next){
+        if(req.session.User!=null){
+            res.redirect('/');
+        }
+        else{next();}
+    }
+}
+
+router.get('/',filter(),(req,res)=>{
+    res.render('regist',{'check':false});
 })
 
 router.post('/',(req,res)=>{
@@ -21,7 +27,7 @@ router.post('/',(req,res)=>{
             i = arr.length +1;
         }
         var obj = {
-            'ID':i,
+            'Id':i,
             'Name':req.body.Name,
             'Email':req.body.Email,
             'Password':req.body.Password
