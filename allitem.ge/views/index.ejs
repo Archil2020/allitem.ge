@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="/css/header.css">
     <title>Document</title>
 </head>
 <body>
     <%- include('header.ejs') %>
-    <h2><%= user %></h2>
-    <img src="imgs/messi.jpg" width="500px" height="500px" alt="messi">
+    <% arr.forEach(function(item){ %>
+        <div class="main">
+            <p style="display: none;"><%= item.Description %></p>
+            <h2><%= item.ProductName %></h2>
+            <h2><%= item.Price %></h2>
+        </div>
+      <% }); %>
+
+        <script>
+            var data = document.getElementsByClassName('main');
+            for(var i = 0;i<data.length;i++){
+                data[i].innerHTML += data[i].children[0].textContent;
+                data[i].children[0].remove();
+            }
+        </script>
+    
+
 </body>
 </html>

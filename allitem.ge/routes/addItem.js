@@ -40,7 +40,6 @@ router.post('/',(req,res)=>{
         arr.push(obj);
         fs.createWriteStream('public/info/Items.json','utf-8').write(JSON.stringify(arr));
     })
-    readStream.close();
     res.redirect('/');
 })
  

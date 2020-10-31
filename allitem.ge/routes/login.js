@@ -4,10 +4,10 @@ var router = express.Router();
 
 function filter1(){
     return function(req,res,next){
-        if(req.session.User!=null){
-            res.redirect('/');
+        if(req.session.User==null){
+            next();
         }
-        else{next();}
+        else{res.redirect('/');}
     }
 }
 
