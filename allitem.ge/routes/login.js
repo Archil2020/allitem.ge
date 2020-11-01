@@ -25,16 +25,16 @@ router.post('/',(req,res)=>{
             res.render('login',{'error':'User not found'});
         }
         else{
-            arr.forEach(element => {
-                if(element.Email==req.body.Email && element.Password == req.body.Password){
-                    req.session.User = element;
+            for (let index = 0; index < arr.length; index++) {
+                if(arr[index].Email==req.body.Email && arr[index].Password == req.body.Password){
+                    req.session.User = arr[index];
                     check = true;
                     res.redirect('/');
                 }
-            });
+            }
         }
-        if(check==false){
-            res.render('login',{'error':'User Not Found'});
+        if(!check){
+            res.render('login',{'error':'User not found'})
         }
     })
 })

@@ -7,11 +7,11 @@ var session = require('express-session')
 const IndexRouter = require('./routes/index');
 const LoginRouter = require('./routes/login');
 const RegistRouter = require('./routes/regist');
-const AddItemRouter = require('./routes/addItem');
+//const AddItemRouter = require('./routes/addItem');
 
 var app = express();
 app.use(cookieParser())
-app.set('trust proxy', 1) // trust first proxy
+//app.set('trust proxy', 1); // trust first proxy
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -25,6 +25,6 @@ app.use(express.static(path.join(__dirname,"public")));
 app.use('/',IndexRouter);
 app.use('/login',LoginRouter);
 app.use('/regist',RegistRouter);
-app.use('/additem',AddItemRouter);
+//app.use('/additem',AddItemRouter);
 
 app.listen(3000,'localhost');

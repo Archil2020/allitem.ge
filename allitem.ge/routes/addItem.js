@@ -18,19 +18,20 @@ router.get('/',filter(),(req,res)=>{
 })
 
 router.post('/',(req,res)=>{
-    var arr = [];
-    var i;
-    var obj = null;
-    var readStream = fs.createReadStream('public/info/Items.json','utf-8');
+    let arr = [];
+    let i;
+    let readStream = fs.createReadStream('public/info/Items.json','utf-8');
+
     readStream.on('data',(chunk)=>{
+        //let writeStream = fs.createWriteStream('public/info/Items.json','utf-8');
         arr = JSON.parse(chunk);
         if(!arr.length){
-            i = 1;
+            i=1;
         }
         else{
             i = arr.length+1;
         }
-        obj = {
+        let obj = {
             'Id' : i,
             'OwnerID' : req.session.User.Id,
             'ProductName' : req.body.productName,
@@ -38,7 +39,8 @@ router.post('/',(req,res)=>{
             'Description' : req.body.text
         }
         arr.push(obj);
-        fs.createWriteStream('public/info/Items.json','utf-8').write(JSON.stringify(arr));
+    
+        console.log(obj);
     })
     res.redirect('/');
 })
