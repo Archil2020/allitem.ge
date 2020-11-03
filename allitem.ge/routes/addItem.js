@@ -17,31 +17,33 @@ router.get('/',filter(),(req,res)=>{
     res.render('additem',{'check':true});
 })
 
-router.post('/',(req,res)=>{
-    let arr = [];
-    let i;
-    let readStream = fs.createReadStream('public/info/Items.json','utf-8');
+function lastIndex(arr){
+    if(!arr.length){
+        i=1;
+    }
+    else{
+        i = arr.length+1;
+    }
+    return i;
+}
 
-    readStream.on('data',(chunk)=>{
-        //let writeStream = fs.createWriteStream('public/info/Items.json','utf-8');
-        arr = JSON.parse(chunk);
-        if(!arr.length){
-            i=1;
-        }
-        else{
-            i = arr.length+1;
-        }
-        let obj = {
-            'Id' : i,
-            'OwnerID' : req.session.User.Id,
-            'ProductName' : req.body.productName,
-            'Price' : req.body.Price,
-            'Description' : req.body.text
-        }
-        arr.push(obj);
-    
-        console.log(obj);
-    })
+router.post('/',async (req,res)=>{
+    let i;
+    let data = fs.readFileSync('public/info/Items.json','utf-8');
+    let arr = JSON.parse(data);
+
+    await(i = lastIndex(arr));
+
+    let obj = {
+        'Id' : i,
+        'OwnerID' : req.session.User.Id,
+        'ProductName' : req.body.productName,
+        'Price' : req.body.Price,
+        'Description' : req.body.text
+    }
+    arr.push(obj);
+    fs.writeFileSync('public/info/Items.json',JSON.stringify(arr));
+
     res.redirect('/');
 })
  
