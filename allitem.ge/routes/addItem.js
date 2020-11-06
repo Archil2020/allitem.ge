@@ -32,7 +32,7 @@ router.post('/',async (req,res)=>{
     let data = fs.readFileSync('public/info/Items.json','utf-8');
     let arr = JSON.parse(data);
 
-    await(i = lastIndex(arr));
+    i = await lastIndex(arr);
 
     let obj = {
         'Id' : i,
@@ -41,7 +41,7 @@ router.post('/',async (req,res)=>{
         'Price' : req.body.Price,
         'Description' : req.body.text
     }
-    arr.push(obj);
+    await arr.push(obj);
     fs.writeFileSync('public/info/Items.json',JSON.stringify(arr));
 
     res.redirect('/');

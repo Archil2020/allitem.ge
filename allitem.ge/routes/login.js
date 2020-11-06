@@ -49,8 +49,9 @@ function filter(){
     }
 }
 
-router.get('/logout',filter(),(req,res)=>{
-    req.session.User = null;
+router.get('/logout',filter(), async (req,res)=>{
+    console.log(req.session.id);
+    await req.session.destroy();
     res.redirect('/');
 })
 
