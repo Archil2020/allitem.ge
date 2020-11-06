@@ -11,6 +11,7 @@ const LoginRouter = require('./routes/login');
 const RegistRouter = require('./routes/regist');
 const AddItemRouter = require('./routes/addItem');
 const Concret_Item = require('./routes/item');
+const basket = require('./routes/backet');
 
 var app = express();
 app.use(cookieParser())
@@ -35,30 +36,7 @@ app.use('/login',LoginRouter);
 app.use('/regist',RegistRouter);
 app.use('/additem',AddItemRouter);
 app.use('/item',Concret_Item);
-
-app.get('/ab?cd', function (req, res) { //b is or not
-  res.send('ab?cd')
-})
-
-app.get('/ab+cd', function (req, res) { //unsized nomber of b
-  res.send('ab+cd')
-})
-
-app.get('/ab*cd', function (req, res) { // random string instead of *
-  res.send('ab*cd')
-})
-
-app.get(/a/, function (req, res) { //contain a
-  res.send('/a/')
-})
-
-app.get('/ab(cd)?e', function (req, res) { // cd is or not
-  res.send('ab(cd)?e')
-})
-
-app.get(/.*fly$/, function (req, res) { //This route path will match butterfly and dragonfly, but not butterflyman, dragonflyman, and so on.
-  res.send('/.*fly$/')
-})
+app.use('/basket',basket);
 
 app.all('*',function(req, res){
   res.status(404);

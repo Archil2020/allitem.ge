@@ -18,7 +18,7 @@
                 <h2><%= item.ProductName %></h2>
                 <h2><%= item.Price %></h2>
                 <a href="AddToCart/<%= item.Id%>" style="position: absolute;left: auto;right: 121px;top: auto;bottom: 11px;" class="btn btn-success">add To Cart</a>
-                <a href="item/<%= item.Id%>" style="position: absolute;left: auto;right: 27px;top: auto;bottom: 11px;" class="btn btn-success">Full Info</a>
+                <a href="item/<%= item.Id%>" data-method="post" style="position: absolute;left: auto;right: 27px;top: auto;bottom: 11px;" class="btn btn-success">Full Info</a>
             </div>
           <% }); %>
     </div>
