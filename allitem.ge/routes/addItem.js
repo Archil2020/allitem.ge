@@ -18,6 +18,7 @@ router.get('/',filter(),(req,res)=>{
 })
 
 function lastIndex(arr){
+    let i;
     if(!arr.length){
         i=1;
     }

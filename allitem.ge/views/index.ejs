@@ -15,20 +15,39 @@
         <% arr.forEach(function(item){ %>
             <div class="main" style="border: 2px solid black; padding: 5px; width: 500px;margin-top: 30px; position: relative;">
                 <p style="display: none;"><%= item.Description %></p>
+                <p class="id" style="display: none;"><%= item.Id %></p>
                 <h2><%= item.ProductName %></h2>
                 <h2><%= item.Price %></h2>
-                <a href="AddToCart/<%= item.Id%>" style="position: absolute;left: auto;right: 121px;top: auto;bottom: 11px;" class="btn btn-success">add To Cart</a>
+                <a style="position: absolute;left: auto;right: 121px;top: auto;bottom: 11px;" class="add btn btn-success">add To Cart</a>
                 <a href="item/<%= item.Id%>" data-method="post" style="position: absolute;left: auto;right: 27px;top: auto;bottom: 11px;" class="btn btn-success">Full Info</a>
             </div>
           <% }); %>
     </div>
 
         <script>
-            var data = document.getElementsByClassName('main');
-            for(var i = 0;i<data.length;i++){
-                data[i].innerHTML += data[i].children[0].textContent;
-                data[i].children[0].remove();
-            }
+            $(document).ready(async function(){  
+                var data = $('.main');
+                for(var i = 0;i<data.length;i++){
+                    data[i].innerHTML += data[i].children[0].textContent;
+                    data[i].children[0].remove();
+                }
+                
+                $('.add').click(function(){
+                    $.ajax({
+                        url:'/basket/AddToCart',
+                        method:'POST',
+                        dataType:'json',
+                        data: {'id':$(this).parents().children('.id').text()},
+                        success:function(responce){
+                            console.log(responce);
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    })
+                })
+            })
+
         </script>
     
 
