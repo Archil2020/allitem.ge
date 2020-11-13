@@ -1,5 +1,6 @@
 var router = require('express').Router();
 var fs = require('fs');
+const { json } = require('body-parser');
 
 function filter(){
     return function(req,res,next){
@@ -12,8 +13,26 @@ function filter(){
     }
 }
 
-router.get('/',filter(),(req,res)=>{
-    res.render('basket');
+router.get('/',filter(),async (req,res)=>{
+    var Product_ID_Arr = [];
+    let Bask_data = fs.readFileSync('public/info/basket.json','utf8');
+    let BasketArr = JSON.parse(Bask_data);
+    for(let i = 0;i<BasketArr.length;i++){
+        if(BasketArr[i].UserId === req.session.User.Id){
+            Product_ID_Arr.push(BasketArr[i].ProductId);
+        }
+    }
+    let Bask_ProdArr = [];
+    let Prod_data = fs.readFileSync('public/info/Items.json','utf8');
+    let Prod_Arr = JSON.parse(Prod_data);
+    for (let i = 0; i < Prod_Arr.length; i++) {
+        for (let k = 0; k < Product_ID_Arr.length; k++) {
+            if(Prod_Arr[i].Id==Product_ID_Arr[k]){
+                Bask_ProdArr.push(Prod_Arr[i]);
+            }
+        }
+    }
+    res.render('basket',{'arr':Bask_ProdArr});
 })
 
 function filter1(){

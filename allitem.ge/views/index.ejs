@@ -13,12 +13,12 @@
     <%- include('header.ejs') %>
     <div class="Main" style="display: flex; flex-wrap: wrap;justify-content: space-around; margin-top: 25px;">
         <% arr.forEach(function(item){ %>
-            <div class="main" style="border: 2px solid black; padding: 5px; width: 500px;margin-top: 30px; position: relative;">
+            <div class="main"  style="border: 2px solid black; padding: 5px; width: 500px;margin-top: 30px; position: relative;">
                 <p style="display: none;"><%= item.Description %></p>
                 <p class="id" style="display: none;"><%= item.Id %></p>
                 <h2><%= item.ProductName %></h2>
                 <h2><%= item.Price %></h2>
-                <a style="position: absolute;left: auto;right: 121px;top: auto;bottom: 11px;" class="add btn btn-success">add To Cart</a>
+                <a id="<%= item.Id%>" style="position: absolute;left: auto;right: 121px;top: auto;bottom: 11px;" class="add btn btn-success">add To Cart</a>
                 <a href="item/<%= item.Id%>" data-method="post" style="position: absolute;left: auto;right: 27px;top: auto;bottom: 11px;" class="btn btn-success">Full Info</a>
             </div>
           <% }); %>
@@ -32,14 +32,18 @@
                     data[i].children[0].remove();
                 }
                 
-                $('.add').click(function(){
+
+                $('.add').click(async function(){
+                    //console.log($(this).get(0).id);
+                    let item = await $('#' + $(this).get(0).id);
                     $.ajax({
                         url:'/basket/AddToCart',
                         method:'POST',
                         dataType:'json',
                         data: {'id':$(this).parents().children('.id').text()},
                         success:function(responce){
-                            console.log(responce);
+                            item.css("background-color","orange");
+                            item.text("Remove from Cart")
                         },
                         error:function(err){
                             console.log(err);
