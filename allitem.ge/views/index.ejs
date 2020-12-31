@@ -18,7 +18,7 @@
                 <p class="id" style="display: none;"><%= item.Id %></p>
                 <h2><%= item.ProductName %></h2>
                 <h2><%= item.Price %></h2>
-                <a id="<%= item.Id%>" style="position: absolute;left: auto;right: 121px;top: auto;bottom: 11px;" class="add btn btn-success">add To Cart</a>
+                <a id="<%= item.Id%>" style="position: absolute;left: auto;right: 121px;top: auto;bottom: 11px;" class="add btn btn-success">Add to cart</a>
                 <a href="item/<%= item.Id%>" data-method="post" style="position: absolute;left: auto;right: 27px;top: auto;bottom: 11px;" class="btn btn-success">Full Info</a>
             </div>
           <% }); %>
@@ -34,7 +34,6 @@
                 
 
                 $('.add').click(async function(){
-                    //console.log($(this).get(0).id);
                     let item = await $('#' + $(this).get(0).id);
                     $.ajax({
                         url:'/basket/AddToCart',
@@ -42,8 +41,16 @@
                         dataType:'json',
                         data: {'id':$(this).parents().children('.id').text()},
                         success:function(responce){
-                            item.css("background-color","orange");
-                            item.text("Remove from Cart")
+                            if(responce=='false'){
+                                alert("Please, log on");
+                            }
+                            else if(responce=='based'){
+                                alert("this product is already in your basket");
+                            }
+                            else{
+                                item.css('background-color','orange');
+                                item.text('remove from basket');
+                            }
                         },
                         error:function(err){
                             console.log(err);

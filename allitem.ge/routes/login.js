@@ -50,7 +50,7 @@ function filter(){
 }
 
 router.get('/logout',filter(), async (req,res)=>{
-    console.log(req.session.id);
+    let sesNAme = req.sessionID
     await req.session.destroy();
     res.redirect('/');
 })

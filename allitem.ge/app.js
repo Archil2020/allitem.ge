@@ -22,7 +22,7 @@ app.use(session({
     unset: 'destroy',
     store: new FileStore({
       path : './sessions',
-      //reapInterval: 100,
+      reapInterval: 10,
     }),
     cookie: {expires:1000*3600}
   })
@@ -42,4 +42,4 @@ app.all('*',function(req, res){
   res.status(404);
   res.render('error');
 });
-app.listen(3000,'localhost');
+app.listen(80,'localhost');

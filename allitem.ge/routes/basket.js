@@ -32,7 +32,7 @@ router.get('/',filter(),async (req,res)=>{
             }
         }
     }
-    res.render('basket',{'arr':Bask_ProdArr});
+    res.render('basket',{'arr':Bask_ProdArr,'check':true});
 })
 
 function filter1(){
@@ -41,7 +41,7 @@ function filter1(){
             next();
         }
         else{
-            res.json("Please, log in");
+            res.json("false");
         }
     }
 }
@@ -59,15 +59,24 @@ function lastIndex(arr){
 
 router.post('/AddToCart',filter1(),async (req,res)=>{
     let i;
+    let check = false;
     let arr = JSON.parse(fs.readFileSync('public/info/basket.json','utf-8'));
-    i = await lastIndex(arr); 
-    arr.push({
-        'Id' : i,
-        'UserId' : req.session.User.Id,
-        'ProductId' : req.body.id
+    await arr.forEach(element => {
+        if (element.ProductId==req.body.id && element.UserId == req.session.User.Id) {
+            check=true;
+            return res.json("based");
+        }
     });
-    fs.writeFileSync('public/info/basket.json',JSON.stringify(arr));
-    return res.json("Hello");
+    if (check==false) {
+        i = await lastIndex(arr); 
+        arr.push({
+            'Id' : i,
+            'UserId' : req.session.User.Id,
+            'ProductId' : req.body.id
+        });
+        fs.writeFileSync('public/info/basket.json',JSON.stringify(arr));
+        return res.json("true");   
+    }
 })
 
 module.exports = router;
